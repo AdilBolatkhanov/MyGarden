@@ -21,7 +21,13 @@ class GardenPlantingRepository private constructor(
     fun isPlanted(plantId: String) =
             gardenPlantingDao.isPlanted(plantId)
 
+    fun isPlantNeedWater(plantId: String) = gardenPlantingDao.isPlantNeedWater(plantId)
+
     fun getPlantedGardens() = gardenPlantingDao.getPlantedGardens()
+
+    suspend fun updateNeedWater(needWater: Boolean, plantId: String) = gardenPlantingDao.updateNeedWater(needWater, plantId)
+
+    suspend fun updateNeedWaterWithTime(needWater: Boolean,time: Long, plantId: String) = gardenPlantingDao.updateNeedWaterWithTime(needWater,time, plantId)
 
     companion object {
 

@@ -24,7 +24,7 @@ import java.util.Calendar
 )
 data class GardenPlanting(
     @ColumnInfo(name = "plant_id") val plantId: String,
-
+    @ColumnInfo(name="need_water") val needWater: Boolean = false,
     /**
      * Indicates when the [Plant] was planted. Used for showing notification when it's time
      * to harvest the plant.

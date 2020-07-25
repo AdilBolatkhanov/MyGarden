@@ -48,6 +48,14 @@ class PlantDetailFragment : Fragment() {
         ).apply {
             viewModel = plantDetailViewModel
             lifecycleOwner = viewLifecycleOwner
+            callback = object :Callback{
+                override fun updateNeedWater(needWater: Boolean) {
+                    hideAppBarFab(fabNeedWater)
+                    plantDetailViewModel.updateNeedWater(needWater)
+                    Snackbar.make(root, "Flower watered",Snackbar.LENGTH_LONG)
+                        .show()
+                }
+            }
 
             var isToolbarShown = false
 
@@ -137,6 +145,6 @@ class PlantDetailFragment : Fragment() {
     }
 
     interface Callback {
-        fun add(plant: Plant?)
+        fun updateNeedWater(needWater: Boolean)
     }
 }

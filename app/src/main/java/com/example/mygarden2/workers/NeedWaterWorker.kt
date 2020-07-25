@@ -20,6 +20,7 @@ import java.lang.Math.random
 class NeedWaterWorker(val context: Context,
                       workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams){
+    private var notificationId = inputData.getString(NAME_OF_PLANT)?.length ?: (100 * random()).toInt()
 
     override suspend fun doWork(): Result {
         createChannel()
@@ -66,7 +67,6 @@ class NeedWaterWorker(val context: Context,
     }
     companion object{
         const val CHANNEL_ID = "channel_3"
-        const val notificationId = 9009
     }
 
 }

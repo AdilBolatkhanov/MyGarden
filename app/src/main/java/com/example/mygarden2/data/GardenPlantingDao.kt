@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import java.util.*
 
 /**
  * The Data Access Object for the [GardenPlanting] class.
@@ -28,6 +29,15 @@ interface GardenPlantingDao {
 
     @Query("SELECT * FROM garden_plantings WHERE plant_id = :plantId")
     suspend fun getGardenPlanting(plantId: String): GardenPlanting
+
+    @Query("SELECT need_water FROM garden_plantings WHERE plant_id = :plantId")
+    fun isPlantNeedWater(plantId: String): Boolean
+
+    @Query("UPDATE garden_plantings SET need_water = :needWater WHERE plant_id = :plantId")
+    suspend fun updateNeedWater(needWater: Boolean, plantId: String)
+
+    @Query("UPDATE garden_plantings SET need_water = :needWater,last_watering_date = :time WHERE plant_id = :plantId")
+    suspend fun updateNeedWaterWithTime(needWater: Boolean, time: Calendar, plantId: String)
 
     @Query("DELETE FROM garden_plantings")
     suspend fun clearGarden()

@@ -1,5 +1,8 @@
 
 package com.example.mygarden2.data
+
+import java.util.*
+
 class GardenPlantingRepository private constructor(
     private val gardenPlantingDao: GardenPlantingDao
 ) {
@@ -21,7 +24,13 @@ class GardenPlantingRepository private constructor(
     fun isPlanted(plantId: String) =
             gardenPlantingDao.isPlanted(plantId)
 
+    fun isPlantNeedWater(plantId: String):Boolean = gardenPlantingDao.isPlantNeedWater(plantId)
+
     fun getPlantedGardens() = gardenPlantingDao.getPlantedGardens()
+
+    suspend fun updateNeedWater(needWater: Boolean, plantId: String) = gardenPlantingDao.updateNeedWater(needWater, plantId)
+
+    suspend fun updateNeedWaterWithTime(needWater: Boolean,time: Calendar, plantId: String) = gardenPlantingDao.updateNeedWaterWithTime(needWater,time, plantId)
 
     companion object {
 

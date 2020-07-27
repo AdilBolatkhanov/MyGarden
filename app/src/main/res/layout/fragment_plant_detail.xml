@@ -23,7 +23,9 @@
         <variable
             name="viewModel"
             type="com.example.mygarden2.viewmodels.PlantDetailViewModel" />
-
+        <variable
+            name="callback"
+            type="com.example.mygarden2.PlantDetailFragment.Callback" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -171,6 +173,20 @@
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@drawable/ic_plus" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabNeedWater"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{() -> callback.updateNeedWater(false)}"
+            android:backgroundTint="@android:color/holo_blue_bright"
+            app:shapeAppearance="@style/ShapeAppearance.Sunflower.FAB"
+            android:visibility="gone"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|start"
+            app:srcCompat="@drawable/ic_baseline_opacity_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

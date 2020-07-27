@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -48,7 +49,15 @@ class PlantDetailFragment : Fragment() {
         ).apply {
             viewModel = plantDetailViewModel
             lifecycleOwner = viewLifecycleOwner
-
+            callback = object :Callback{
+                override fun updateNeedWater(needWater: Boolean) {
+                    hideAppBarFab(fabNeedWater)
+                    plantDetailViewModel.updateNeedWater(needWater)
+                    Snackbar.make(root, "Flower watered",Snackbar.LENGTH_LONG)
+                        .show()
+                }
+            }
+            fabNeedWater.visibility = if (plantDetailViewModel.isNeedWater) View.VISIBLE else View.GONE
             var isToolbarShown = false
 
             // scroll change listener begins at Y = 0 when image is fully collapsed
@@ -137,6 +146,6 @@ class PlantDetailFragment : Fragment() {
     }
 
     interface Callback {
-        fun add(plant: Plant?)
+        fun updateNeedWater(needWater: Boolean)
     }
 }

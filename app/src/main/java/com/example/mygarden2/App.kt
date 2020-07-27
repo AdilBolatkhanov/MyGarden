@@ -7,6 +7,7 @@ import androidx.work.WorkManager
 import com.example.mygarden2.data.AppDatabase
 import com.example.mygarden2.utilities.InjectorUtils
 import com.example.mygarden2.workers.NeedWaterWorker
+import com.example.mygarden2.workers.SeedDatabaseWorker
 
 class App:Application() {
 
@@ -18,9 +19,5 @@ class App:Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
-        val workManagerConfiguration = Configuration.Builder()
-            .setWorkerFactory(NeedWaterWorker.Factory(InjectorUtils.getGardenPlantingRepository(this)))
-            .build()
-        WorkManager.initialize(this, workManagerConfiguration)
     }
 }

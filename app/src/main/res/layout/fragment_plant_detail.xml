@@ -183,7 +183,7 @@
             android:onClick="@{() -> callback.updateNeedWater(false)}"
             android:backgroundTint="@android:color/holo_blue_bright"
             app:shapeAppearance="@style/ShapeAppearance.Sunflower.FAB"
-            app:isGone="@{viewModel.isNeedWater}"
+            android:visibility="gone"
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="bottom|start"
             app:srcCompat="@drawable/ic_baseline_opacity_24" />

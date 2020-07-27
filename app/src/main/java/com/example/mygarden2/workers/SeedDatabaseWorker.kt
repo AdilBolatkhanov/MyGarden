@@ -3,6 +3,8 @@ package com.example.mygarden2.workers
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker
+import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 
 import com.example.mygarden2.data.AppDatabase
@@ -38,5 +40,16 @@ class SeedDatabaseWorker(
 
     companion object {
         private const val TAG = "SeedDatabaseWorker"
+    }
+
+    class Factory:WorkerFactory(){
+        override fun createWorker(
+            appContext: Context,
+            workerClassName: String,
+            workerParameters: WorkerParameters
+        ): ListenableWorker? {
+            return SeedDatabaseWorker(appContext,workerParameters)
+        }
+
     }
 }

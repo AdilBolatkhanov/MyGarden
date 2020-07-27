@@ -27,7 +27,14 @@ class PlantDetailViewModel(
 
     val isPlanted = gardenPlantingRepository.isPlanted(plantId)
     val plant = plantRepository.getPlant(plantId)
-    val isNeedWater = gardenPlantingRepository.isPlantNeedWater(plantId)
+
+    var isNeedWater: Boolean = false
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            isNeedWater = gardenPlantingRepository.isPlantNeedWater(plantId)
+        }
+    }
 
 
 //    fun addPlantToGarden() {
@@ -41,14 +48,11 @@ class PlantDetailViewModel(
     fun doAddDeletePlantToGarden() {
         viewModelScope.launch(Dispatchers.IO) {
             val myPlant = plantRepository.getSpecificPlant(plantId)
-            val constraints = Constraints.Builder()
-                .setRequiresBatteryNotLow(true)
-                .build()
+
             val work =
-                PeriodicWorkRequestBuilder<NeedWaterWorker>(myPlant.wateringInterval.toLong(), TimeUnit.MINUTES)
+                PeriodicWorkRequestBuilder<NeedWaterWorker>(myPlant.wateringInterval.toLong(), TimeUnit.MINUTES, myPlant.wateringInterval.toLong()-1, TimeUnit.MINUTES)
                 .setInitialDelay(myPlant.wateringInterval.toLong(), TimeUnit.MINUTES)
                 .setInputData(workDataOf(NAME_OF_PLANT to myPlant.name , ID_OF_PLANT to plantId))
-                .setConstraints(constraints)
                 .build()
 
             if (!isAddDelete) {
@@ -71,7 +75,7 @@ class PlantDetailViewModel(
     fun updateNeedWater(needWater: Boolean){
         viewModelScope.launch {
             gardenPlantingRepository.updateNeedWaterWithTime(needWater,
-                Calendar.getInstance().timeInMillis, plantId)
+                Calendar.getInstance(), plantId)
         }
     }
 

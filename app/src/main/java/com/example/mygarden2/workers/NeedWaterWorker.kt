@@ -13,8 +13,10 @@ import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import com.example.mygarden2.App
 import com.example.mygarden2.GardenActivity
 import com.example.mygarden2.R
+import com.example.mygarden2.data.AppDatabase
 import com.example.mygarden2.data.GardenPlantingDao
 import com.example.mygarden2.data.GardenPlantingRepository
 import com.example.mygarden2.viewmodels.ID_OF_PLANT
@@ -23,15 +25,14 @@ import java.lang.Math.random
 
 
 class NeedWaterWorker(val context: Context,
-                      workerParams: WorkerParameters,
-                      private val gardenPlantingRepository: GardenPlantingRepository
+                      workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams){
 
 
     override suspend fun doWork(): Result {
         createChannel()
         if (inputData.getString(ID_OF_PLANT) != null) {
-            gardenPlantingRepository.updateNeedWater(true, inputData.getString(ID_OF_PLANT)!!)
+            AppDatabase.getInstance(applicationContext).gardenPlantingDao().updateNeedWater(true, inputData.getString(ID_OF_PLANT)!!)
 
             val intent = Intent(context, GardenActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -49,7 +50,7 @@ class NeedWaterWorker(val context: Context,
 
             with(NotificationManagerCompat.from(context)) {
                 // notificationId is a unique int for each notification that you must define
-                notify(inputData.getString(NAME_OF_PLANT)!!.length, builder.build())
+                notify(inputData.getString(ID_OF_PLANT)!!.toInt(), builder.build())
             }
 
             return Result.success()
@@ -58,18 +59,6 @@ class NeedWaterWorker(val context: Context,
         }
     }
 
-
-
-    class Factory(private val repository: GardenPlantingRepository): WorkerFactory() {
-        override fun createWorker(
-            appContext: Context,
-            workerClassName: String,
-            workerParameters: WorkerParameters
-        ): ListenableWorker? {
-            return NeedWaterWorker(appContext, workerParameters, repository)
-        }
-
-    }
 
 
     private fun createChannel(){

@@ -5,7 +5,7 @@ The architecture is built around Android Architecture Components.
 We followed the recommendations laid out in the [Guide to App Architecture][5] when deciding on the architecture for the app. We kept logic away from Activities and Fragments and moved it to [ViewModels][17]. We observed data using [LiveData][13] and used the [Data Binding][11] Library to bind UI components in layouts to the app's data sources.
 
 
-Libraries Used
+Tech Stack
 --------------
 * [Foundation][0] - Components for core system capabilities, Kotlin extensions and support for
   multidex and automated testing.
